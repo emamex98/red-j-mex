@@ -1,0 +1,73 @@
+---
+import arrow from "../assets/arrow.svg";
+import { Image } from "astro:assets";
+
+const { title, body, linkTo } = Astro.props;
+---
+
+<div class="card">
+  <a href={linkTo}>
+    <h2>{title}</h2>
+    <div class="card-body">
+      <p>{body}</p>
+      <button class="card-cta">
+        <Image src={arrow} alt="Ver más" />
+      </button>
+    </div>
+  </a>
+</div>
+
+<style lang="scss">
+  .card {
+    border: 0.2rem solid $border-color;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    width: 20rem;
+    height: fit-content;
+    @include transition(border-color);
+
+    & a,
+    & a:hover,
+    & a:visited {
+      color: $text-color;
+      text-decoration: none;
+    }
+
+    & :global(h2) {
+      font-weight: 450;
+      font-size: 1.6rem;
+      margin: 0;
+    }
+
+    &-body {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+
+      & > p {
+        max-width: 80%;
+        overflow-wrap: break-word;
+      }
+    }
+
+    &-cta {
+      display: block;
+      height: 3rem;
+      width: 3rem;
+      border-radius: 50%;
+      background-color: $accent-color;
+      border: 0 solid $accent-color;
+      @include transition(background-color);
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &:hover &-cta {
+      cursor: pointer;
+      background-color: $primary-color;
+    }
+  }
+</style>

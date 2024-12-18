@@ -1,0 +1,180 @@
+---
+import logoRed from "../assets/logo.png";
+---
+
+<header>
+  <nav class="navbar">
+    <a href="/">
+      <img src={logoRed.src} alt="Logo" class="navbar-logo" />
+    </a>
+
+    <div class="navbar-burger">
+      <div class="burger-line"></div>
+      <div class="burger-line"></div>
+      <div class="burger-line"></div>
+    </div>
+
+    <div class="navbar-links">
+      <a href="/">INICIO</a>
+      <a href="/">SOBRE LA RED</a>
+      <a href="/">NOTICIAS</a>
+      <a href="/">CALENDARIO</a>
+      <a href="/">MATERIALES</a>
+      <a href="/">CONTACTO</a>
+    </div>
+  </nav>
+</header>
+
+<style lang="scss">
+  // Mixins
+  @mixin flex-center {
+    display: flex;
+    align-items: center;
+  }
+
+  // Base Navbar Styling
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    @include flex-center;
+    justify-content: flex-start;
+    padding: 0.938rem 3.125rem;
+    background-color: $background-color;
+    box-shadow: 0 0.125rem 0.313rem rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+
+    &-logo {
+      height: 3rem;
+      margin-right: 2.25rem;
+    }
+
+    &-links {
+      @include flex-center;
+      gap: 1.25rem;
+
+      a {
+        text-decoration: none;
+        color: $text-color;
+        font-weight: 500;
+        @include transition(color);
+        font-size: 1.2rem;
+
+        &:hover {
+          color: $primary-color;
+        }
+      }
+    }
+
+    &-burger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      width: 1.875rem;
+      margin-left: auto;
+      margin-right: 2.2rem;
+    }
+  }
+
+  // Burger Line Styling
+  .burger-line {
+    height: 0.188rem;
+    width: 100%;
+    background-color: $text-color;
+    margin: 0.25rem 0;
+    @include transition;
+  }
+
+  // Mobile Menu Animation
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: scaleY(0);
+      transform-origin: top;
+    }
+    to {
+      opacity: 1;
+      transform: scaleY(1);
+      transform-origin: top;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 1;
+      transform: scaleY(1);
+      transform-origin: top;
+    }
+    to {
+      opacity: 0;
+      transform: scaleY(0);
+      transform-origin: top;
+    }
+  }
+
+  // Responsive Breakpoints
+  @media screen and (max-width: $mobile-breakpoint) {
+    .navbar {
+      padding: 0.938rem 1.25rem;
+      justify-content: space-between;
+
+      &-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100vw;
+        background-color: $background-color;
+        box-shadow: 0 0.125rem 0.313rem rgba(0, 0, 0, 0.1);
+        transform-origin: top;
+
+        // Closed state
+        opacity: 0;
+        transform: scaleY(0);
+
+        // Open state
+        &.active {
+          display: flex;
+          animation: slideDown 0.3s ease forwards;
+          padding: 2rem 0;
+        }
+
+        // Closing animation
+        &.closing {
+          animation: slideUp 0.3s ease forwards;
+        }
+
+        a {
+          padding: 0.5rem 1.25rem;
+        }
+      }
+
+      &-burger {
+        display: flex;
+      }
+    }
+  }
+</style>
+
+<script>
+  const navbarBurger = document.querySelector(".navbar-burger");
+  const navbarLinks = document.querySelector(".navbar-links");
+
+  navbarBurger?.addEventListener("click", function () {
+    if (navbarLinks?.classList.contains("active")) {
+      navbarLinks?.classList.add("closing");
+
+      setTimeout(() => {
+        navbarLinks.classList.remove("active", "closing");
+      }, 300);
+    } else {
+      navbarLinks?.classList.add("active");
+    }
+
+    document
+      .querySelectorAll(".burger-line")
+      .forEach((line) => line.classList.toggle("active"));
+  });
+</script>

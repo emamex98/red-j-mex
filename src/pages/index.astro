@@ -1,0 +1,97 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getEntry } from "astro:content";
+import showdown from "showdown";
+import ribon from "../assets/ribbon.png";
+import { Image } from "astro:assets";
+import LinkCard from "../components/LinkCard.astro";
+
+interface Entry {
+  fields: Record<string, unknown>;
+}
+
+const converter = new showdown.Converter();
+
+const { data: homepageEntry } = await getEntry({
+  collection: "homepage",
+  id: "/",
+});
+
+const heroImage = `https:${homepageEntry.heroImage.fields.file.url}`;
+const featuredText = converter.makeHtml(`# ${homepageEntry.featuredText}`);
+const { featuredLinks } = homepageEntry;
+---
+
+<Layout>
+  <section class="hero" style={`background-image: url('${heroImage}')`}>
+  </section>
+
+  <section class="featured-text">
+    <div class="featured-text-content">
+      <Image src={ribon} alt="Listón de Conciencia sobre VIH" />
+      <span set:html={featuredText} />
+    </div>
+  </section>
+
+  <section class="featured-links">
+    {
+      featuredLinks.map((item: Entry) => {
+        const { title, body, link } = item.fields;
+        return <LinkCard title={title} body={body} linkTo={link} />;
+      })
+    }
+  </section>
+
+  <style lang="scss">
+    .hero {
+      width: 100vw;
+      height: 40vw;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+
+      &-image {
+        width: 100vw;
+      }
+    }
+
+    .featured-text {
+      padding: 3rem;
+      background-color: $accent-color;
+
+      &-content {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+
+        & :global(h1) {
+          font-weight: 400;
+          color: #fff;
+          font-size: 2rem;
+          margin: 0;
+          max-width: 70rem;
+        }
+
+        & :global(strong) {
+          font-weight: 500;
+        }
+
+        @media screen and (max-width: $mobile-breakpoint) {
+          flex-direction: column;
+        }
+      }
+    }
+
+    .featured-links {
+      padding: 3rem;
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+
+      @media screen and (max-width: $mobile-breakpoint) {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</Layout>

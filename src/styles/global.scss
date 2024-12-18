@@ -1,0 +1,13 @@
+// Variables
+$primary-color: #ff2e3d;
+$accent-color: #01b16b;
+$text-color: #333;
+$text-color-light: #fff;
+$background-color: #ffffff;
+$border-color-dark: #333;
+$border-color: #eee;
+$mobile-breakpoint: 53rem; // 850px
+
+@mixin transition($property: all) {
+transition: $property 0.3s ease;
+}
