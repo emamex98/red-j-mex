@@ -1,0 +1,42 @@
+---
+import { getCollection } from "astro:content";
+import ContentPage from "../layouts/ContentPage.astro";
+import EventCard from "../components/EventCard.astro";
+import moment from "moment";
+
+const events = await getCollection("events");
+
+events.sort((a, b) => {
+  const dateA = new Date(a.data.date);
+  const dateB = new Date(b.data.date);
+  // @ts-ignore
+  return dateB - dateA;
+});
+---
+
+<ContentPage title="Calendario">
+  <section class="calendar-content">
+    {
+      events.map((item: { data: Object }) => {
+        return <EventCard {...item.data} />;
+      })
+    }
+  </section>
+</ContentPage>
+
+<style lang="scss">
+  .calendar-content {
+    padding: 3rem 10rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    @media screen and (max-width: $mobile-breakpoint) {
+      padding: 3rem 2rem;
+    }
+
+    & :global(b) {
+      font-weight: 500;
+    }
+  }
+</style>

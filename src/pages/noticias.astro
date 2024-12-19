@@ -1,0 +1,67 @@
+---
+import { getCollection } from "astro:content";
+import ContentPage from "../layouts/ContentPage.astro";
+import NewsCard from "../components/NewsCard.astro";
+
+interface Entry {
+  data: {
+    date: string;
+  };
+}
+
+const news = await getCollection("news");
+news.sort((a: Entry, b: Entry) => {
+  const dateA = new Date(a.data.date);
+  const dateB = new Date(b.data.date);
+  // @ts-ignore
+  return dateB - dateA;
+});
+---
+
+<ContentPage title="Noticias">
+  <section class="news-content">
+    {
+      news.map((item) => {
+        const { title, date, summary } = item.data;
+        const image = item.data.featuredImage.fields.file;
+        const linkTo = `/noticias${item.id}`;
+        return (
+          <NewsCard
+            title={title}
+            date={date}
+            summary={summary}
+            featuredImage={image}
+            linkTo={linkTo}
+          />
+        );
+      })
+    }
+  </section>
+</ContentPage>
+
+<style lang="scss">
+  .news-content {
+    padding: 3rem 10rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    @media screen and (max-width: $mobile-breakpoint) {
+      padding: 3rem 2rem;
+    }
+
+    & :global(p) {
+      font-weight: 200;
+      font-size: 1.3rem;
+    }
+
+    & :global(b) {
+      font-weight: 500;
+    }
+
+    & :global(.inline-image) {
+      width: 100%;
+      padding: 2rem 0;
+    }
+  }
+</style>

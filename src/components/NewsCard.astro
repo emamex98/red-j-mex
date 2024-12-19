@@ -1,0 +1,124 @@
+---
+import { Image } from "astro:assets";
+import arrow from "../assets/arrow.svg";
+import moment from "moment";
+
+const { date, title, summary, linkTo, featuredImage } = Astro.props;
+
+moment.locale("es-mx");
+const formattedDate = moment(date).format("LL");
+---
+
+<div class="card">
+  <a href={linkTo}>
+    <div class="card-layout">
+      <div
+        class="card-image"
+        style={`background-image: url('https://${featuredImage.url}')`}
+      >
+      </div>
+      <div class="card-text">
+        <p class="card-date">{formattedDate}</p>
+        <h2>{title}</h2>
+        <p>{summary}</p>
+        <div class="card-actions">
+          <button class="card-cta">
+            <Image src={arrow} alt="Ver más" />
+          </button>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>
+
+<style lang="scss">
+  .card {
+    border: 0.2rem solid $border-color;
+    border-radius: 0.5rem;
+    height: fit-content;
+    @include transition(border-color);
+
+    &-layout {
+      display: flex;
+    }
+
+    &-image {
+      width: 40%;
+      flex-grow: 1;
+      background-position: center;
+      background-size: cover;
+      border-radius: 0.3rem 0 0 0.3rem;
+    }
+
+    &-text {
+      padding: 1.5rem;
+      width: 60%;
+
+      & > p {
+        margin: 0.24rem 0;
+      }
+
+      & > h2 {
+        margin: 0.24rem 0;
+        font-weight: 450;
+        font-size: 1.6rem;
+      }
+    }
+
+    &-date {
+      font-size: 1rem !important;
+      font-style: italic;
+    }
+
+    @media screen and (max-width: $mobile-breakpoint) {
+      &-layout {
+        display: flex;
+        flex-direction: column;
+      }
+
+      &-image {
+        width: auto;
+        height: 10rem;
+        background-position: center;
+        background-size: cover;
+        border-radius: 0.3rem 0.3rem 0 0;
+      }
+
+      &-text {
+        width: auto;
+      }
+    }
+
+    & a,
+    & a:hover,
+    & a:visited {
+      color: $text-color;
+      text-decoration: none;
+    }
+
+    &-actions {
+      display: flex;
+      justify-content: end;
+      padding-top: 1rem;
+    }
+
+    &-cta {
+      display: block;
+      height: 3rem;
+      width: 3rem;
+      border-radius: 50%;
+      background-color: $accent-color;
+      border: 0 solid $accent-color;
+      @include transition(background-color);
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &:hover &-cta {
+      cursor: pointer;
+      background-color: $primary-color;
+    }
+  }
+</style>

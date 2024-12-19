@@ -1,0 +1,39 @@
+---
+import Layout from "../layouts/Layout.astro";
+const { title, disableCaps } = Astro.props;
+---
+
+<Layout title={title}>
+  <section class="page-title">
+    <h1 class="page-title-text">{disableCaps ? title : title.toUpperCase()}</h1>
+  </section>
+  <section class="content">
+    <slot />
+  </section>
+</Layout>
+
+<style lang="scss">
+  .page-title {
+    background-color: $accent-color;
+    padding: 3rem 0rem;
+    display: flex;
+    justify-content: center;
+
+    &-text {
+      margin: 0;
+      font-weight: 500;
+      font-size: 3rem;
+      color: $text-color-light;
+      text-align: center;
+      width: 90vw;
+    }
+  }
+
+  :global(a),
+  :global(a:hover),
+  :global(a:visited) {
+    color: $accent-color;
+    max-width: 90vw;
+    overflow-wrap: anywhere;
+  }
+</style>

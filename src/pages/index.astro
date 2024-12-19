@@ -1,10 +1,10 @@
 ---
-import Layout from "../layouts/Layout.astro";
 import { getEntry } from "astro:content";
-import showdown from "showdown";
-import ribon from "../assets/ribbon.png";
 import { Image } from "astro:assets";
+import Layout from "../layouts/Layout.astro";
 import LinkCard from "../components/LinkCard.astro";
+import ribon from "../assets/ribbon.png";
+import showdown from "showdown";
 
 interface Entry {
   fields: Record<string, unknown>;
@@ -28,7 +28,7 @@ const { featuredLinks } = homepageEntry;
 
   <section class="featured-text">
     <div class="featured-text-content">
-      <Image src={ribon} alt="Listón de Conciencia sobre VIH" />
+      <Image src={ribon} alt="Listón de Conciencia sobre VIH" loading="eager" />
       <span set:html={featuredText} />
     </div>
   </section>

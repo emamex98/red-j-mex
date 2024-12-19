@@ -7,7 +7,6 @@ interface ContentfulEntry {
 }
 
 const homepage = defineCollection({
-  // Load data from anywhere!
   loader: async () => {
     const { items } = await contentfulClient.getEntries<ContentfulEntry>({
       content_type: "homepage",
@@ -22,4 +21,49 @@ const homepage = defineCollection({
   },
 });
 
-export const collections = { homepage };
+const contentPages = defineCollection({
+  loader: async () => {
+    const { items } = await contentfulClient.getEntries<ContentfulEntry>({
+      content_type: "contentPage",
+    });
+
+    const entries = items.map((item) => ({
+      id: item.fields.slug,
+      ...item.fields,
+    }));
+
+    return entries;
+  },
+});
+
+const news = defineCollection({
+  loader: async () => {
+    const { items } = await contentfulClient.getEntries<ContentfulEntry>({
+      content_type: "news",
+    });
+
+    const entries = items.map((item) => ({
+      id: item.fields.slug,
+      ...item.fields,
+    }));
+
+    return entries;
+  },
+});
+
+const events = defineCollection({
+  loader: async () => {
+    const { items } = await contentfulClient.getEntries<ContentfulEntry>({
+      content_type: "calendarEvent",
+    });
+
+    const entries = items.map((item) => ({
+      id: item.fields.title,
+      ...item.fields,
+    }));
+
+    return entries;
+  },
+});
+
+export const collections = { homepage, contentPages, news, events };

@@ -1,11 +1,17 @@
 ---
+import { Image } from "astro:assets";
 import logoRed from "../assets/logo.png";
 ---
 
 <header>
   <nav class="navbar">
     <a href="/">
-      <img src={logoRed.src} alt="Logo" class="navbar-logo" />
+      <Image
+        src={logoRed}
+        alt="Logo Red J+MEX"
+        class="navbar-logo"
+        loading="eager"
+      />
     </a>
 
     <div class="navbar-burger">
@@ -16,11 +22,11 @@ import logoRed from "../assets/logo.png";
 
     <div class="navbar-links">
       <a href="/">INICIO</a>
-      <a href="/">SOBRE LA RED</a>
-      <a href="/">NOTICIAS</a>
-      <a href="/">CALENDARIO</a>
-      <a href="/">MATERIALES</a>
-      <a href="/">CONTACTO</a>
+      <a href="/sobre-la-red">SOBRE LA RED</a>
+      <a href="/noticias">NOTICIAS</a>
+      <a href="/calendario">CALENDARIO</a>
+      <a href="/materiales">MATERIALES</a>
+      <a href="/contacto">CONTACTO</a>
     </div>
   </nav>
 </header>
@@ -46,6 +52,7 @@ import logoRed from "../assets/logo.png";
     z-index: 1000;
 
     &-logo {
+      width: 3.06rem;
       height: 3rem;
       margin-right: 2.25rem;
     }

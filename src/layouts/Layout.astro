@@ -1,6 +1,7 @@
 ---
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+const { title } = Astro.props;
 ---
 
 <!doctype html>
@@ -10,8 +11,9 @@ import Footer from "../components/Footer.astro";
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>Red J+MEX</title>
+    <title>{title} {title ? "|" : null} Red J+MEX</title>
   </head>
+
   <body>
     <Header />
     <main>
@@ -19,25 +21,25 @@ import Footer from "../components/Footer.astro";
     </main>
     <Footer />
   </body>
+
+  <style lang="scss">
+    @import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap");
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      font-size: 16px;
+      font-family: "Fredoka", serif;
+      font-optical-sizing: auto;
+      font-weight: normal !important;
+    }
+
+    main {
+      margin-top: 4.9rem;
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
 </html>
-
-<style>
-  @import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap");
-
-  html,
-  body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    font-size: 16px;
-    font-family: "Fredoka", serif;
-    font-optical-sizing: auto;
-    font-weight: normal !important;
-  }
-
-  main {
-    margin-top: 4.9rem;
-    display: flex;
-    flex-direction: column;
-  }
-</style>

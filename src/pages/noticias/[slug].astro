@@ -1,0 +1,90 @@
+---
+import { BLOCKS } from "@contentful/rich-text-types";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+import { getCollection, getEntry } from "astro:content";
+import ContentPage from "../../layouts/ContentPage.astro";
+import moment from "moment";
+
+export const getStaticPaths = async () => {
+  const news = await getCollection("news");
+  const ids = news.map((item: Record<string, string>) => ({
+    params: { slug: item.id },
+  }));
+  return ids;
+};
+
+const { slug } = Astro.params;
+
+const { data: entry } = await getEntry({
+  collection: "news",
+  id: `/${slug}`,
+});
+
+const { title, date } = entry;
+
+const heroImage = `https:${entry.featuredImage.fields.file.url}`;
+
+moment.locale("es-mx");
+const formattedDate = moment(date).format("LL");
+
+const body = documentToHtmlString(entry.body, {
+  renderNode: {
+    [BLOCKS.EMBEDDED_ASSET]: (node) =>
+      `<img class="inline-image" 
+      src="https://${node.data.target.fields.file.url}" 
+      alt="${node.data.target.fields.file.title}">`,
+  },
+});
+---
+
+<ContentPage title={title} disableCaps={true}>
+  <section class="hero" style={`background-image: url('${heroImage}')`}>
+  </section>
+  <section class="content">
+    <span set:html={body} />
+    <p class="date"><i>Publicado el {formattedDate}</i></p>
+  </section>
+</ContentPage>
+
+<style lang="scss">
+  .hero {
+    width: 100vw;
+    height: 40vw;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+    &-image {
+      width: 100vw;
+    }
+  }
+
+  .content {
+    display: flexbox;
+    flex-direction: column;
+    padding: 3rem 10rem;
+
+    .date {
+      justify-self: center;
+      padding-top: 1rem;
+    }
+
+    @media screen and (max-width: $mobile-breakpoint) {
+      padding: 3rem 2rem;
+    }
+
+    & :global(p) {
+      font-weight: 200;
+      font-size: 1.3rem;
+    }
+
+    & :global(b) {
+      font-weight: 500;
+    }
+
+    & :global(.inline-image) {
+      width: 100%;
+      padding: 2rem 0;
+    }
+  }
+</style>

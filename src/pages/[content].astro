@@ -1,0 +1,64 @@
+---
+import { BLOCKS } from "@contentful/rich-text-types";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+import { getCollection, getEntry } from "astro:content";
+import ContentPage from "../layouts/ContentPage.astro";
+
+export const getStaticPaths = async () => {
+  const contentPages = await getCollection("contentPages");
+  const ids = contentPages.map((item: Record<string, string>) => ({
+    params: { content: item.id },
+  }));
+  return ids;
+};
+
+const { content: entryId } = Astro.params;
+
+const { data: entry } = await getEntry({
+  collection: "contentPages",
+  id: `/${entryId}`,
+});
+
+const { title } = entry;
+
+const body = documentToHtmlString(entry.body, {
+  renderNode: {
+    [BLOCKS.EMBEDDED_ASSET]: (node) =>
+      `<img class="inline-image" 
+      src="https://${node.data.target.fields.file.url}" 
+      alt="${node.data.target.fields.file.title}">`,
+  },
+});
+---
+
+<ContentPage title={title}>
+  <section class="content">
+    <span set:html={body} />
+  </section>
+</ContentPage>
+
+<style lang="scss">
+  .content {
+    display: flexbox;
+    flex-direction: column;
+    padding: 3rem 10rem;
+
+    @media screen and (max-width: $mobile-breakpoint) {
+      padding: 3rem 2rem;
+    }
+
+    & :global(p) {
+      font-weight: 200;
+      font-size: 1.3rem;
+    }
+
+    & :global(b) {
+      font-weight: 500;
+    }
+
+    & :global(.inline-image) {
+      width: 100%;
+      padding: 2rem 0;
+    }
+  }
+</style>
