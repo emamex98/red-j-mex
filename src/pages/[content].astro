@@ -6,7 +6,7 @@ import ContentPage from "../layouts/ContentPage.astro";
 
 export const getStaticPaths = async () => {
   const contentPages = await getCollection("contentPages");
-  const ids = contentPages.map((item: Record<string, string>) => ({
+  const ids = contentPages.map((item) => ({
     params: { content: item.id },
   }));
   return ids;

@@ -9,9 +9,21 @@ const { title } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
+
     <title>{title} {title ? "|" : null} Red J+MEX</title>
+    <meta
+      name="description"
+      content="La Red Mexicana de Jóvenes y Adolescentes Positivxs trabaja por la igualdad social y la visibilidad de las juventudes que viven con VIH. ¡Infórmate y participa!"
+    />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:site_name" content="Red J+MEX" />
+    <meta property="og:image" content="/og-card.png" />
   </head>
 
   <body>

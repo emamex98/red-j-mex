@@ -1,16 +1,35 @@
+---
+
+---
+
 <footer class="main-footer">
-  <p>Conecta con nosotrxs:</p>
+  <div class="social-icons">
+    <p>Conecta con nosotrxs:</p>
+    <p>
+      <a href="https://www.instagram.com/redjovenespositivesmx" target="_blank">
+        <i class="fi fi-brands-instagram"></i>
+      </a>
+      <a href="https://www.facebook.com/jovenesposmx" target="_blank">
+        <i class="fi fi-brands-facebook"></i>
+      </a>
+      <a href="https://x.com/JovPOZMex" target="_blank">
+        <i class="fi fi-brands-twitter-alt"></i>
+      </a>
+    </p>
+  </div>
   <p>
-    <a href="#">Aviso de Privacidad</a>
+    <a href="/">Aviso de Privacidad</a><br />
   </p>
 </footer>
 
 <style lang="scss">
+  @import "@flaticon/flaticon-uicons/css/all/all";
   .main-footer {
     color: $text-color-light;
     background-color: $border-color-dark;
     padding: 3rem;
     font-weight: 100;
+    font-size: 1.1rem;
     display: flex;
     justify-content: space-between;
 
@@ -19,6 +38,30 @@
     & a:visited {
       color: $text-color-light;
       text-decoration: none;
+    }
+
+    @media screen and (max-width: $mobile-breakpoint) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .social-icons {
+    color: $text-color-light;
+
+    & > p {
+      margin: 0.3rem;
+    }
+
+    & i {
+      margin-right: 0.5rem;
+    }
+
+    @media screen and (max-width: $mobile-breakpoint) {
+      text-align: center;
+      & i {
+        margin: 0 0.25rem;
+      }
     }
   }
 </style>

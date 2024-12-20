@@ -1,0 +1,44 @@
+---
+import ContentPage from "../layouts/ContentPage.astro";
+import { Image } from "astro:assets";
+import ribon from "../assets/ribbon.png";
+---
+
+<ContentPage title="Página no encontrada">
+  <section class="content">
+    <span>
+      <h1>Error 404</h1>
+      <Image src={ribon} alt="Listón de Conciencia sobre VIH" loading="eager" />
+      <h2>La página que buscas no existe o fue eliminada.</h2>
+      <a href="/">{"<"} Regresa a la página principal</a>
+    </span>
+  </section>
+</ContentPage>
+
+<style lang="scss">
+  .content {
+    display: flexbox;
+    flex-direction: column;
+    padding: 3rem 10rem;
+    text-align: center;
+    height: 50vh;
+
+    & h1 {
+      font-size: 2rem;
+      font-weight: 300;
+    }
+
+    & h2 {
+      font-weight: 300;
+    }
+
+    & a {
+      font-size: 1.5rem;
+      text-decoration: none;
+    }
+
+    @media screen and (max-width: $mobile-breakpoint) {
+      padding: 3rem 2rem;
+    }
+  }
+</style>

@@ -7,7 +7,7 @@ import moment from "moment";
 
 export const getStaticPaths = async () => {
   const news = await getCollection("news");
-  const ids = news.map((item: Record<string, string>) => ({
+  const ids = news.map((item) => ({
     params: { slug: item.id },
   }));
   return ids;
